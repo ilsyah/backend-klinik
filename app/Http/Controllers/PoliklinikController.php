@@ -6,6 +6,8 @@ use App\Http\Requests\StoreDokterRequest;
 use App\Models\Poliklinik;
 use App\Http\Requests\StorePoliklinikRequest;
 use App\Http\Requests\UpdatePoliklinikRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PoliklinikController extends Controller
 {
@@ -36,11 +38,26 @@ class PoliklinikController extends Controller
      * @param  \App\Http\Requests\StorePoliklinikRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePoliklinikRequest $request)
+    public function store()
     {
-        $poli = Poliklinik::create($request->all());
+        $validate = Validator::make(request()->all(), [
+            'poliklinik' => 'required|unique:polikliniks',
+            'kode_poli' => 'required',
+        ]);
+        if ($validate->fails()) {
+            return response()->json($validate->messages(), 422);
+        }
 
-        return response()->json($poli, 200);
+        $data = Poliklinik::create([
+            'poliklinik' => request('poliklinik'),
+            'kode_poli' => request('kode_poli'),
+        ]);
+
+        if ($data) {
+            return response()->json(['messages' => 'Tambah data berhasil']);
+        } else {
+            return response()->json(['messages' => 'Tambah data gagal']);
+        }
     }
 
     /**
@@ -73,11 +90,19 @@ class PoliklinikController extends Controller
      * @param  \App\Models\Poliklinik  $poliklinik
      * @return \Illuminate\Http\Response
      */
-    public function update(StorePoliklinikRequest $request, Poliklinik $poliklinik)
+    public function update(Request $request, $id)
     {
-        $poliklinik->update($request->all());
+        $validate = $request->validate([
+            'poliklinik' => 'required',
+            'kode_poli' => 'numeric',
+        ]);
 
-        return response()->json($poliklinik, 200);
+        $data = Poliklinik::find($id);
+        $data->poliklinik = $validate['poliklinik'];
+        $data->kode_poli = $validate['kode_poli'];
+        $data->save();
+
+        return response()->json(['message' => 'Data berhasil diperbarui']);
     }
 
     /**

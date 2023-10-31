@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthDokterController;
+use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PelayananController;
@@ -30,3 +31,7 @@ Route::prefix('v1')->group(function () {
 Route::post('login-dokter', [AuthDokterController::class, 'login']);
 Route::post('is-auth', [AuthDokterController::class, 'isAuth']);
 Route::post('logout-dokter', [AuthDokterController::class, 'logout']);
+
+Route::post('login-user', [AuthUserController::class, 'loginUser']);
+Route::post('logout-user', [AuthUserController::class, 'logout']);
+Route::post('is-auth-user', [AuthUserController::class, 'isAuth']);
