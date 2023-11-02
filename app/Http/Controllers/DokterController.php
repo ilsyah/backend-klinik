@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dokter;
 use App\Http\Requests\StoreDokterRequest;
 use App\Http\Requests\UpdateDokterRequest;
+use Illuminate\Http\Request;
 
 class DokterController extends Controller
 {
@@ -73,9 +74,23 @@ class DokterController extends Controller
      * @param  \App\Models\Dokter  $dokter
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDokterRequest $request, Dokter $dokter)
+    public function update(Request $request, $id)
     {
-        //
+        $validate = $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email',
+            'poliklinik_klinik' => 'required|numeric',
+            'alamat' => 'required'
+        ]);
+
+        $data = Dokter::find($id);
+        $data->nama = $validate['nama'];
+        $data->email = $validate['email'];
+        $data->poliklinik_klinik = $validate['poliklinik_klinik'];
+        $data->alamat = $validate['alamat'];
+        $data->save();
+
+        return response()->json(['message' => 'data berhasil di update']);
     }
 
     /**
@@ -84,8 +99,16 @@ class DokterController extends Controller
      * @param  \App\Models\Dokter  $dokter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dokter $dokter)
+    public function destroy($id)
     {
-        //
+        $data = Dokter::find($id);
+
+        if (!$data) {
+            return response()->json(['message' => 'data not found'], 404);
+        }
+
+        $data->delete();
+
+        return response()->json(['message' => 'Item deleted']);
     }
 }

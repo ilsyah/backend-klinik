@@ -111,4 +111,22 @@ class PelayananController extends Controller
     {
         //
     }
+
+    public function getAntri(Request $request)
+    {
+        $tanggal = $request->input('tanggal');
+        $poli = $request->input('poliklinik_id');
+
+        $lastAntrian = Pelayanan::where('tanggal', $tanggal)
+            ->where('poliklinik_id', $poli)
+            ->orderBy('antrian', 'desc')
+            ->first();
+        if ($lastAntrian) {
+            $enxtAntrian = $lastAntrian->antrian + 1;
+        } else {
+            $enxtAntrian = 1;
+        }
+
+        return response()->json(['antrian' => $enxtAntrian]);
+    }
 }

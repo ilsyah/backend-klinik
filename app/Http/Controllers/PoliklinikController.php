@@ -111,8 +111,15 @@ class PoliklinikController extends Controller
      * @param  \App\Models\Poliklinik  $poliklinik
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Poliklinik $poliklinik)
+    public function destroy($id)
     {
-        //
+        $data = Poliklinik::find($id);
+        if (!$data) {
+            return response()->json(['message' => 'data not found'], 404);
+        }
+
+        $data->delete();
+
+        return response()->json(['message' => 'Item deleted']);
     }
 }
