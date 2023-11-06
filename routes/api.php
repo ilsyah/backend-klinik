@@ -23,12 +23,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::apiResource('/dokter', DokterController::class);
+    Route::get('/data-dokter', [DokterController::class, 'getDokterAll']);
+
     Route::apiResource('/poliklinik', PoliklinikController::class);
+    Route::get('/data-poliklinik', [PoliklinikController::class, 'getPoli']);
+
     Route::apiResource('/pelayanan', PelayananController::class);
+    Route::get('/data-pelayanan', [PelayananController::class, 'getPelayananAll']);
+
     Route::apiResource('/history', HistoryController::class);
+    Route::get('/data-history', [HistoryController::class, 'getAllHistory']);
+
     Route::post('/get-antri', [PelayananController::class, 'getAntri']);
     Route::post('/get-dokter', [DokterController::class, 'getDokter']);
-    Route::get('/data-poliklinik', [PoliklinikController::class, 'getPoli']);
 });
 
 Route::post('login-dokter', [AuthDokterController::class, 'login']);

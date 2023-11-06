@@ -20,6 +20,12 @@ class PelayananController extends Controller
         return response()->json($data, 200);
     }
 
+    public function getPelayananAll()
+    {
+        $data = Pelayanan::get();
+        return response()->json($data, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

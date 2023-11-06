@@ -20,6 +20,12 @@ class DokterController extends Controller
         return response()->json($data);
     }
 
+    public function getDokterAll()
+    {
+        $data = Dokter::get();
+        return response()->json($data, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

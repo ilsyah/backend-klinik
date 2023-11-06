@@ -18,6 +18,12 @@ class HistoryController extends Controller
         return response()->json($data, 200);
     }
 
+    public function getAllHistory()
+    {
+        $data = Pelayanan::with('poliklinik', 'dokter')->where('status', '=', '1')->orderBy('id', 'desc')->get();
+        return response()->json($data, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
