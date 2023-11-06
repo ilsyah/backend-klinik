@@ -18,7 +18,13 @@ class PoliklinikController extends Controller
      */
     public function index()
     {
-        $data = Poliklinik::all();
+        $data = Poliklinik::paginate(5);
+        return response()->json($data, 200);
+    }
+
+    public function getPoli()
+    {
+        $data = Poliklinik::get();
         return response()->json($data, 200);
     }
 

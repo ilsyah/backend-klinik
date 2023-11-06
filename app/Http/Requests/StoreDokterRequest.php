@@ -33,7 +33,7 @@ class StoreDokterRequest extends FormRequest
             ],
             'password' => ['required', 'min:8'],
             'alamat' => ['required'],
-            'poliklinik_klinik' => ['required'],
+            'poliklinik_id' => ['required'],
         ];
     }
 }

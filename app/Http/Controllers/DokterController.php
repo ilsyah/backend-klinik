@@ -16,7 +16,7 @@ class DokterController extends Controller
      */
     public function index()
     {
-        $data = Dokter::with('poliklinik')->get();
+        $data = Dokter::with('poliklinik', 'pelayanan')->paginate(5);
         return response()->json($data);
     }
 
@@ -39,8 +39,11 @@ class DokterController extends Controller
     public function store(StoreDokterRequest $request)
     {
         $dokter = Dokter::with('poliklinik')->create($request->all());
+        // if ($dokter->fails()) {
+        //     return response()->json($dokter->messages(), 422);
+        // }
 
-        return response()->json($dokter, 200);
+        return response()->json($dokter);
     }
 
     /**
@@ -51,7 +54,7 @@ class DokterController extends Controller
      */
     public function show($dokter)
     {
-        $data = Dokter::with('poliklinik')->find($dokter);
+        $data = Dokter::with('poliklinik', 'pelayanan')->find($dokter);
 
         return response()->json($data, 200);
     }
@@ -79,14 +82,14 @@ class DokterController extends Controller
         $validate = $request->validate([
             'nama' => 'required',
             'email' => 'required|email',
-            'poliklinik_klinik' => 'required|numeric',
+            'poliklinik_id' => 'required|numeric',
             'alamat' => 'required'
         ]);
 
         $data = Dokter::find($id);
         $data->nama = $validate['nama'];
         $data->email = $validate['email'];
-        $data->poliklinik_klinik = $validate['poliklinik_klinik'];
+        $data->poliklinik_id = $validate['poliklinik_id'];
         $data->alamat = $validate['alamat'];
         $data->save();
 
@@ -110,5 +113,15 @@ class DokterController extends Controller
         $data->delete();
 
         return response()->json(['message' => 'Item deleted']);
+    }
+
+    public function getDokter(Request $request)
+    {
+        $poli = $request->input('poliklinik_id');
+
+        $dokter = Dokter::with('poliklinik')->where('poliklinik_id', $poli)
+            ->get();
+
+        return response()->json($dokter);
     }
 }

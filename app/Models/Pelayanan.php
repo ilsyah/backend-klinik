@@ -18,4 +18,8 @@ class Pelayanan extends Model
     {
         return $this->belongsTo(Poliklinik::class, 'poliklinik_id');
     }
+    public function dokter()
+    {
+        return $this->belongsTo(Dokter::class, 'dokter_id');
+    }
 }

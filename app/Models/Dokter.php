@@ -15,6 +15,10 @@ class Dokter extends Model
 
     public function poliklinik()
     {
-        return $this->belongsTo(Poliklinik::class, 'poliklinik_klinik');
+        return $this->belongsTo(Poliklinik::class, 'poliklinik_id');
+    }
+    public function pelayanan()
+    {
+        return $this->hasMany(Pelayanan::class);
     }
 }

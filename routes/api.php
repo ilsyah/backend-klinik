@@ -27,6 +27,8 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('/pelayanan', PelayananController::class);
     Route::apiResource('/history', HistoryController::class);
     Route::post('/get-antri', [PelayananController::class, 'getAntri']);
+    Route::post('/get-dokter', [DokterController::class, 'getDokter']);
+    Route::get('/data-poliklinik', [PoliklinikController::class, 'getPoli']);
 });
 
 Route::post('login-dokter', [AuthDokterController::class, 'login']);

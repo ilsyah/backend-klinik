@@ -16,7 +16,7 @@ class PelayananController extends Controller
      */
     public function index()
     {
-        $data = Pelayanan::with('poliklinik')->where('status', '=', null)->orderBy('id', 'asc')->get();
+        $data = Pelayanan::with('poliklinik', 'dokter')->where('status', '=', null)->orderBy('id', 'asc')->get();
         return response()->json($data, 200);
     }
 
@@ -55,6 +55,7 @@ class PelayananController extends Controller
             'tanggal' => $tanggal,
             'nik' => $request->nik,
             'poliklinik_id' => $poli,
+            'dokter_id' => $request->dokter_id,
         ]);
 
         return response()->json($data);
@@ -68,7 +69,7 @@ class PelayananController extends Controller
      */
     public function show($pelayanan)
     {
-        $data = Pelayanan::with('poliklinik')->find($pelayanan);
+        $data = Pelayanan::with('poliklinik', 'dokter')->where('status', '=', null)->orderBy('id', 'asc')->find($pelayanan);
         return response()->json($data);
     }
 

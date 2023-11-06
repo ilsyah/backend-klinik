@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('alamat');
-            $table->foreignId('poliklinik_klinik');
+            $table->string('token_login')->nullable();
+            $table->foreignId('poliklinik_id');
             $table->timestamps();
         });
     }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('nik');
             $table->foreignId('poliklinik_id');
+            $table->foreignId('dokter_id');
             $table->integer('status')->nullable();
             $table->timestamps();
         });

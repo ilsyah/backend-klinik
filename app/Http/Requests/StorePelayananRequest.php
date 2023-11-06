@@ -37,6 +37,7 @@ class StorePelayananRequest extends FormRequest
                 Rule::unique('pelayanans', 'nik')->ignore($this->pelayanan)
             ],
             'poliklinik_id' => 'required',
+            'dokter_id' => 'required',
         ];
     }
 }

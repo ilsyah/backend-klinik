@@ -14,7 +14,7 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $data = Pelayanan::with('poliklinik')->where('status', '=', '1')->orderBy('id', 'desc')->get();
+        $data = Pelayanan::with('poliklinik', 'dokter')->where('status', '=', '1')->orderBy('id', 'desc')->paginate(5);
         return response()->json($data, 200);
     }
 
@@ -47,7 +47,7 @@ class HistoryController extends Controller
      */
     public function show($id)
     {
-        $data = Pelayanan::with('poliklinik')->where('status', '=', 1)->find($id);
+        $data = Pelayanan::with('poliklinik', 'dokter')->where('status', '=', 1)->find($id);
 
         return response()->json($data);
     }
